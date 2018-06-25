@@ -32,9 +32,8 @@ public class PaperLabelService {
 		
 	    String	sql ="MATCH (n:PaperNode { name:"+ paperName + " }),(m:BusinessNode{ name:\""+ rootBusinenssNode +"\" }), p = shortestPath((n)-[*]->(m)) RETURN nodes(p)";
 	  
-	    ArrayList nodeList = new ArrayList<String>();
-
-	    ArrayList nodeList_tmp = new ArrayList<String>();
+	    ArrayList<String> nodeList = new ArrayList<String>();
+	    ArrayList<String> nodeList_tmp = new ArrayList<String>();
 
 	    try {
 			pst = neocon.prepareStatement(sql);
