@@ -95,4 +95,12 @@ public class PaperLabelService {
 		
         
 	}
+	
+	public String  getSameBusinessPaperName(String paperName)
+	{
+		
+		
+		
+		return "ok";
+	}
 }
