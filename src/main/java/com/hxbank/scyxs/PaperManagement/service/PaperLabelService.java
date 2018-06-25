@@ -18,6 +18,7 @@ import com.hxbank.scyxs.PaperManagement.utils.Neo4jUtils;
 public class PaperLabelService {
 
 	private static Logger logger = Logger.getLogger(PaperLabelService.class);
+	
 	public String getLabel(String rootBusinenssNode, String paperName)
 	{
 		
@@ -32,8 +33,8 @@ public class PaperLabelService {
 		
 	    String	sql ="MATCH (n:PaperNode { name:"+ paperName + " }),(m:BusinessNode{ name:\""+ rootBusinenssNode +"\" }), p = shortestPath((n)-[*]->(m)) RETURN nodes(p)";
 	  
-	    ArrayList<String> nodeList = new ArrayList<String>();
-	    ArrayList<String> nodeList_tmp = new ArrayList<String>();
+	    ArrayList nodeList = new ArrayList<String>();
+	    ArrayList nodeList_tmp = new ArrayList<String>();
 
 	    try {
 			pst = neocon.prepareStatement(sql);
