@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    
+     <named-config name="c3p0-neo4j">
+    <!-- 指定数据库连接源的基本属性 -->
+    <!--NEO4J数据库驱动程序-->
+    <property name="driverClass">org.neo4j.jdbc.Driver</property>
+    <!--NEO4J数据库地址 103.160.183.215-->
+    <!--NEO4J数据库地址 102.101.23.95:8045-->
+    <property name="jdbcUrl">jdbc:neo4j:http://localhost:7474/?characterEncoding=utf8
+</property>
+    <!--NEO4J数据库用户名-->
+    <property name="user">neo4j</property>
+    <!--NEO4J数据库密码-->
+    <property name="password">neo4jneo4j</property>
+    <!-- 若数据库连接数不足时，一次向数据库服务器申请多少个连接 -->
+    <property name="acquireIncrement">5</property>
+    <!-- 初始化数据库连接池时的连接数量 -->
+    <property name="initialPoolSize">10</property>
+    <!-- 数据库连接池中的最小连接数量 -->
+    <property name="minPoolSize">10</property>
+    <!-- 数据库连接池中的最大连接数量 -->
+    <property name="maxPoolSize">50</property>
+
+    <!-- C3P0数据库连接池可以维护的statement的个数 -->
+    <property name="maxStatements">100</property>
+    <!-- 每个连接可以同时使用的statement对象的个数 -->
+    <property name="maxStatementsPerConnection">10</property>
+    </named-config>
+</c3p0-config>
