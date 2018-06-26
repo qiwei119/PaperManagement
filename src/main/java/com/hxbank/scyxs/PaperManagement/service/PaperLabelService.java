@@ -77,7 +77,7 @@ public class PaperLabelService {
 	   //		jsonArray.add(jsonObject);
 				
 			}
-	  //		logger.info("查询结果数据:" + jsonArray);
+
 			System.out.println("##########################");
 
 		} catch (SQLException e) {
