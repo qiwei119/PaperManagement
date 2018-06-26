@@ -27,18 +27,16 @@ public class PaperManageController {
     }
 
 	@RequestMapping(value = "/papermanagement/labelservice/createLabel",method = RequestMethod.POST)
-    public void createPaperLabel(@RequestParam(value = "paperName")String paperName,@RequestParam(value = "businessNode")String businessNode) {
-        
+    public void createPaperLabel(@RequestParam(value = "paperName")String paperName,@RequestParam(value = "businessNode")String businessNode) {      
 		
 		pls.createPaperNodeAndRel(businessNode, paperName);
 	
     }
 	
 	@RequestMapping(value = "/papermanagement/labelservice/getSameBusinessPaper",method = RequestMethod.GET)
-    public void getSameBusinessPaper(@RequestParam(value = "paperName")String paperName,@RequestParam(value = "businessNode")String businessNode) {
-        
+    public String getSameBusinessPaper(@RequestParam(value = "paperName")String paperName) {
 		
-		pls.createPaperNodeAndRel(businessNode, paperName);
+		return pls.getSameBusinessPaperName(paperName);
 	
     }
 }

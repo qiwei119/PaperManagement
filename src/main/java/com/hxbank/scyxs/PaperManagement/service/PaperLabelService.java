@@ -98,9 +98,81 @@ public class PaperLabelService {
 	
 	public String  getSameBusinessPaperName(String paperName)
 	{
+	    Connection neocon = Neo4jUtils.getConnection();
 		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd = null;
 		
+		JSONArray jsonArray = null;
+		JSONObject jsonObject = null;
 		
-		return "ok";
+	    String sql_label ="match (n:PaperNode)-[r:RELATION]->(m:BusinessNode) where n.name="+ paperName +" and r.type=\"隶属\" return m.name"; 
+	    
+	    String paper_label = null;
+	    
+	    try {
+			pst = neocon.prepareStatement(sql_label);
+			logger.info("查询语句:" + sql_label);
+			rs = pst.executeQuery();
+			rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+			jsonArray = new JSONArray();
+			
+			while (rs.next()) {
+				jsonObject = new JSONObject();
+				for (int i = 0; i < columnCount; i++) {
+		
+					paper_label = rs.getObject(i + 1).toString();
+				
+				}
+			}
+
+			System.out.println("##########################");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.info("查询 出错");
+		} 
+	    
+	    ArrayList paperList = new ArrayList<String>();
+	    
+	    if (paper_label ==null)
+	    {
+	    	   return null;
+	    
+	    }else
+	    {
+	    String sql_list= "match (n:PaperNode)-[r:RELATION]->(m:BusinessNode) where m.name=\""+ paper_label +"\" and r.type=\"隶属\" return n.name limit 5";
+	    	try {
+				pst = neocon.prepareStatement(sql_list);
+				logger.info("查询语句:" + sql_list);
+				rs = pst.executeQuery();
+				rsmd = rs.getMetaData();
+				int columnCount = rsmd.getColumnCount();
+				jsonArray = new JSONArray();
+				
+				while (rs.next()) {
+					jsonObject = new JSONObject();
+					for (int i = 0; i < columnCount; i++) {
+			
+						paperList.add(rs.getObject(i + 1).toString());
+     					logger.info("JSon对象rs.getObject2：" + paperList);
+					
+					}
+				}
+
+				System.out.println("##########################");
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				logger.info("查询 出错");
+			} finally {
+				Neo4jUtils.closeAll(neocon, pst, rs);
+			}
+	      	return paperList.toString();
+	    }
+		
+	    
 	}
 }
