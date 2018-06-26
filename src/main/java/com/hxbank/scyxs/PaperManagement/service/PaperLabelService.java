@@ -92,7 +92,25 @@ public class PaperLabelService {
 	
 	public void createPaperNodeAndRel(String rootBusinenssNode, String paperName)
 	{
+		Connection neocon = Neo4jUtils.getConnection();
 		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd = null;
+		
+		String sql_node ="Create (n;PaperNode) where n.name =" + paperName;
+		String sql_rel = "MATCH (m:PaperNode{name:line.PaperNode}) , (n:BusinessNode{name:line.BusinessNode}) CREATE (entity1)-[:RELATION { type:}]->(entity2)";
+		
+		 try {
+				pst = neocon.prepareStatement(sql_node);
+				rs = pst.executeQuery();
+				
+		 }catch (SQLException e) {
+				e.printStackTrace();
+				logger.info("查询 出错");
+			} finally {
+				Neo4jUtils.closeAll(neocon, pst, rs);
+			}
         
 	}
 	
@@ -104,9 +122,6 @@ public class PaperLabelService {
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		
-		JSONArray jsonArray = null;
-		JSONObject jsonObject = null;
-		
 	    String sql_label ="match (n:PaperNode)-[r:RELATION]->(m:BusinessNode) where n.name="+ paperName +" and r.type=\"隶属\" return m.name"; 
 	    
 	    String paper_label = null;
@@ -117,10 +132,8 @@ public class PaperLabelService {
 			rs = pst.executeQuery();
 			rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
-			jsonArray = new JSONArray();
 			
 			while (rs.next()) {
-				jsonObject = new JSONObject();
 				for (int i = 0; i < columnCount; i++) {
 		
 					paper_label = rs.getObject(i + 1).toString();
@@ -150,14 +163,11 @@ public class PaperLabelService {
 				rs = pst.executeQuery();
 				rsmd = rs.getMetaData();
 				int columnCount = rsmd.getColumnCount();
-				jsonArray = new JSONArray();
 				
 				while (rs.next()) {
-					jsonObject = new JSONObject();
 					for (int i = 0; i < columnCount; i++) {
 			
 						paperList.add(rs.getObject(i + 1).toString());
-     					logger.info("JSon对象rs.getObject2：" + paperList);
 					
 					}
 				}
@@ -172,7 +182,5 @@ public class PaperLabelService {
 			}
 	      	return paperList.toString();
 	    }
-		
-	    
 	}
 }
