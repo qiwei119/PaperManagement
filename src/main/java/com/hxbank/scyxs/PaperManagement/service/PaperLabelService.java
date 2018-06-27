@@ -95,14 +95,18 @@ public class PaperLabelService {
 		Connection neocon = Neo4jUtils.getConnection();
 		
 		PreparedStatement pst = null;
+		PreparedStatement pst1 = null;
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		
 		String sql_node ="Create (n;PaperNode) where n.name =" + paperName;
-		String sql_rel = "MATCH (m:PaperNode{name:line.PaperNode}) , (n:BusinessNode{name:line.BusinessNode}) CREATE (entity1)-[:RELATION { type:}]->(entity2)";
+		String sql_rel = "MATCH (m:PaperNode{name:line.PaperNode}) , (n:BusinessNode{name:line.BusinessNode}) CREATE (m)-[:RELATION { type:}]->(n)";
 		
 		 try {
 				pst = neocon.prepareStatement(sql_node);
+				rs = pst.executeQuery();
+				
+				pst1 = neocon.prepareStatement(sql_rel);
 				rs = pst.executeQuery();
 				
 		 }catch (SQLException e) {
